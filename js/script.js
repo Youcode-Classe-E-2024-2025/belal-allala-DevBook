@@ -10,3 +10,12 @@ const booksData = [
     { id: 4, titre: 'Scrum: The Art of Doing Twice the Work in Half the Time', auteur: 'Jeff Sutherland', categorie: 'Gestion de Projet', statut: 'lu' },
     { id: 5, titre: 'Eloquent JavaScript', auteur: 'Marijn Haverbeke', categorie: 'Programmation', statut: 'en cours' },
 ];
+
+document.addEventListener('DOMContentLoaded', () => {
+    const bookListContainer = document.getElementById('book-list-container'); 
+    if (bookListContainer) {
+        renderBookList(initialBooks, bookListContainer);
+    } else {
+        console.error("L'élément avec l'ID 'book-list-container' n'a pas été trouvé dans le DOM.");
+    }
+});
