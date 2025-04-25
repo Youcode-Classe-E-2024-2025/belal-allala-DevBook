@@ -20,33 +20,179 @@ export default class Emprunt {
         return this.dateRetourEffective === null && new Date() > new Date(this.dateRetourPrevue);
     }
     
-    // Méthodes statiques pour la persistance
     static async getAll() {
-        // Code pour récupérer tous les emprunts depuis l'API
+        try {
+            const response = await fetch(`${CONFIG.apiBaseUrl}/emprunts`);
+            if (!response.ok) {
+                throw new Error(`Erreur HTTP: ${response.status}`);
+            }
+            const empruntsData = await response.json();
+            
+            return empruntsData.map(emprunt => new Emprunt(
+                emprunt.id,
+                emprunt.livre_id,
+                emprunt.utilisateur_id,
+                emprunt.date_emprunt,
+                emprunt.date_retour_prevue,
+                emprunt.date_retour_effective
+            ));
+        } catch (error) {
+            console.error('Erreur lors de la récupération des emprunts:', error);
+            return [];
+        }
     }
     
     static async getById(id) {
-        // Code pour récupérer un emprunt par son ID depuis l'API
+        try {
+            const response = await fetch(`${CONFIG.apiBaseUrl}/emprunts/${id}`);
+            if (!response.ok) {
+                throw new Error(`Erreur HTTP: ${response.status}`);
+            }
+            const emprunt = await response.json();
+            
+            return new Emprunt(
+                emprunt.id,
+                emprunt.livre_id,
+                emprunt.utilisateur_id,
+                emprunt.date_emprunt,
+                emprunt.date_retour_prevue,
+                emprunt.date_retour_effective
+            );
+        } catch (error) {
+            console.error(`Erreur lors de la récupération de l'emprunt ${id}:`, error);
+            return null;
+        }
     }
     
     static async getByLivre(idLivre) {
-        // Code pour récupérer les emprunts d'un livre depuis l'API
+        try {
+            const response = await fetch(`${CONFIG.apiBaseUrl}/emprunts?livre_id=${idLivre}`);
+            if (!response.ok) {
+                throw new Error(`Erreur HTTP: ${response.status}`);
+            }
+            const empruntsData = await response.json();
+            
+            return empruntsData.map(emprunt => new Emprunt(
+                emprunt.id,
+                emprunt.livre_id,
+                emprunt.utilisateur_id,
+                emprunt.date_emprunt,
+                emprunt.date_retour_prevue,
+                emprunt.date_retour_effective
+            ));
+        } catch (error) {
+            console.error(`Erreur lors de la récupération des emprunts du livre ${idLivre}:`, error);
+            return [];
+        }
     }
     
     static async getByUser(idUser) {
-        // Code pour récupérer les emprunts d'un utilisateur depuis l'API
+        try {
+            const response = await fetch(`${CONFIG.apiBaseUrl}/emprunts?utilisateur_id=${idUser}`);
+            if (!response.ok) {
+                throw new Error(`Erreur HTTP: ${response.status}`);
+            }
+            const empruntsData = await response.json();
+            
+            return empruntsData.map(emprunt => new Emprunt(
+                emprunt.id,
+                emprunt.livre_id,
+                emprunt.utilisateur_id,
+                emprunt.date_emprunt,
+                emprunt.date_retour_prevue,
+                emprunt.date_retour_effective
+            ));
+        } catch (error) {
+            console.error(`Erreur lors de la récupération des emprunts de l'utilisateur ${idUser}:`, error);
+            return [];
+        }
     }
     
     static async create(emprunt) {
-        // Code pour créer un emprunt via l'API
+        try {
+            const response = await fetch(`${CONFIG.apiBaseUrl}/emprunts`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    livre_id: emprunt.idLivre,
+                    utilisateur_id: emprunt.idUser,
+                    date_emprunt: emprunt.dateEmprunt,
+                    date_retour_prevue: emprunt.dateRetourPrevue,
+                    date_retour_effective: emprunt.dateRetourEffective
+                })
+            });
+            
+            if (!response.ok) {
+                throw new Error(`Erreur HTTP: ${response.status}`);
+            }
+            
+            const nouvelEmprunt = await response.json();
+            return new Emprunt(
+                nouvelEmprunt.id,
+                nouvelEmprunt.livre_id,
+                nouvelEmprunt.utilisateur_id,
+                nouvelEmprunt.date_emprunt,
+                nouvelEmprunt.date_retour_prevue,
+                nouvelEmprunt.date_retour_effective
+            );
+        } catch (error) {
+            console.error('Erreur lors de la création de l\'emprunt:', error);
+            return null;
+        }
     }
     
     static async update(id, emprunt) {
-        // Code pour mettre à jour un emprunt via l'API
+        try {
+            const response = await fetch(`${CONFIG.apiBaseUrl}/emprunts/${id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    livre_id: emprunt.idLivre,
+                    utilisateur_id: emprunt.idUser,
+                    date_emprunt: emprunt.dateEmprunt,
+                    date_retour_prevue: emprunt.dateRetourPrevue,
+                    date_retour_effective: emprunt.dateRetourEffective
+                })
+            });
+            
+            if (!response.ok) {
+                throw new Error(`Erreur HTTP: ${response.status}`);
+            }
+            
+            const empruntModifie = await response.json();
+            return new Emprunt(
+                empruntModifie.id,
+                empruntModifie.livre_id,
+                empruntModifie.utilisateur_id,
+                empruntModifie.date_emprunt,
+                empruntModifie.date_retour_prevue,
+                empruntModifie.date_retour_effective
+            );
+        } catch (error) {
+            console.error(`Erreur lors de la mise à jour de l'emprunt ${id}:`, error);
+            return null;
+        }
     }
     
     static async delete(id) {
-        // Code pour supprimer un emprunt via l'API
+        try {
+            const response = await fetch(`${CONFIG.apiBaseUrl}/emprunts/${id}`, {
+                method: 'DELETE'
+            });
+            
+            if (!response.ok) {
+                throw new Error(`Erreur HTTP: ${response.status}`);
+            }
+            
+            return true;
+        } catch (error) {
+            console.error(`Erreur lors de la suppression de l'emprunt ${id}:`, error);
+            return false;
+        }
     }
     
     toJSON() {

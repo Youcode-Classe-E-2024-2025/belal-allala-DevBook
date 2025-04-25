@@ -1,0 +1,29 @@
+<div class="emprunt-form">
+    <h2>Nouvel emprunt</h2>
+    <form id="form-emprunt">
+        <div class="form-group">
+            <label for="livre-id">Livre</label>
+            <select id="livre-id" required>
+                <!-- Options générées dynamiquement -->
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="utilisateur-id">Utilisateur</label>
+            <select id="utilisateur-id" required>
+                <!-- Options générées dynamiquement -->
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="date-emprunt">Date d'emprunt</label>
+            <input type="date" id="date-emprunt" required>
+        </div>
+        <div class="form-group">
+            <label for="date-retour-prevue">Date de retour prévue</label>
+            <input type="date" id="date-retour-prevue" required>
+        </div>
+        <div class="form-actions">
+            <button type="submit" class="btn-primaire">Enregistrer</button>
+            <button type="button" class="btn-secondaire">Annuler</button>
+        </div>
+    </form>
+</div>
