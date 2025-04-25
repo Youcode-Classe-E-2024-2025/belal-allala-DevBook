@@ -76,20 +76,13 @@ async function chargerCategories() {
     }
 }
 
+// Modifier les fonctions de chargement pour utiliser l'API
 async function chargerLivres() {
     try {
-        // Pour le moment, utilisons des données codées en dur
-        state.livres = [
-            new Livre(1, 'JavaScript: The Good Parts', 'Douglas Crockford', '2008-05-01', 1, 'lu'),
-            new Livre(2, 'Eloquent JavaScript', 'Marijn Haverbeke', '2018-12-04', 1, 'en-cours'),
-            new Livre(3, 'Python Crash Course', 'Eric Matthes', '2019-05-03', 2, 'a-lire'),
-            new Livre(4, 'Learning Python', 'Mark Lutz', '2013-06-12', 2, 'lu'),
-            new Livre(5, 'Docker in Action', 'Jeff Nickoloff', '2016-03-27', 3, 'en-cours'),
-            new Livre(6, 'Clean Architecture', 'Robert C. Martin', '2017-09-10', 4, 'lu'),
-            new Livre(7, 'SQL Performance Explained', 'Markus Winand', '2012-07-01', 5, 'a-lire'),
-            new Livre(8, 'CSS Secrets', 'Lea Verou', '2015-06-15', 6, 'lu'),
-            new Livre(9, 'Node.js Design Patterns', 'Mario Casciaro', '2016-07-18', 7, 'a-lire')
-        ];
+        const response = await fetch(`${CONFIG.apiBaseUrl}/livres`);
+        if (!response.ok) throw new Error('Erreur réseau');
+        const livresData = await response.json();
+        state.livres = livresData.map(l => new Livre(l.id, l.titre, l.auteur, l.date_publication, l.categorie_id, l.statut));
     } catch (error) {
         console.error('Erreur lors du chargement des livres:', error);
     }

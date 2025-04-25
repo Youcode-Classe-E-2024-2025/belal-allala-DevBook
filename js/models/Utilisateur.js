@@ -36,7 +36,7 @@ export default class Utilisateur {
                 utilisateur.id,
                 utilisateur.nom,
                 utilisateur.email,
-                null, // Ne pas charger le mot de passe pour des raisons de sécurité
+                null, 
                 utilisateur.date_inscription
             ));
         } catch (error) {
@@ -57,7 +57,7 @@ export default class Utilisateur {
                 utilisateur.id,
                 utilisateur.nom,
                 utilisateur.email,
-                null, // Ne pas charger le mot de passe pour des raisons de sécurité
+                null, 
                 utilisateur.date_inscription
             );
         } catch (error) {
@@ -90,7 +90,7 @@ export default class Utilisateur {
                 nouvelUtilisateur.id,
                 nouvelUtilisateur.nom,
                 nouvelUtilisateur.email,
-                null, // Ne pas retourner le mot de passe
+                null,
                 nouvelUtilisateur.date_inscription
             );
         } catch (error) {
@@ -106,7 +106,6 @@ export default class Utilisateur {
                 email: utilisateur.email
             };
             
-            // Inclure le mot de passe uniquement s'il est présent
             if (utilisateur.password) {
                 data.password = utilisateur.password;
             }
@@ -128,7 +127,7 @@ export default class Utilisateur {
                 utilisateurModifie.id,
                 utilisateurModifie.nom,
                 utilisateurModifie.email,
-                null, // Ne pas retourner le mot de passe
+                null, 
                 utilisateurModifie.date_inscription
             );
         } catch (error) {
@@ -154,7 +153,6 @@ export default class Utilisateur {
         }
     }
     toJSON() {
-        // Ne pas inclure le mot de passe dans l'objet JSON
         return {
             id: this.id,
             nom: this.nom,

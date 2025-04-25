@@ -51,3 +51,20 @@ WHERE YEAR(e.date_emprunt) = ?  -- L'année sera fournie par le formulaire
 GROUP BY l.id
 ORDER BY nombre_emprunts DESC
 LIMIT 10;
+
+
+-- Requête 1: Livres en retard
+SELECT l.titre, u.nom, e.date_retour_prevue, DATEDIFF(NOW(), e.date_retour_prevue) AS jours_retard
+FROM emprunts e
+JOIN livres l ON e.livre_id = l.id
+JOIN utilisateurs u ON e.utilisateur_id = u.id
+WHERE e.date_retour_effective IS NULL AND e.date_retour_prevue < NOW();
+
+-- Requête 2: Top 10 livres par mois
+SELECT l.titre, COUNT(e.id) AS nombre_emprunts
+FROM livres l
+JOIN emprunts e ON l.id = e.livre_id
+WHERE MONTH(e.date_emprunt) = 3 AND YEAR(e.date_emprunt) = 2024  -- Mars 2024
+GROUP BY l.id
+ORDER BY nombre_emprunts DESC
+LIMIT 10;

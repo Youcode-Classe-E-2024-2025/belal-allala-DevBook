@@ -29,7 +29,7 @@ export default class Livre {
         return this.nombreEmprunts;
     }
     
-    // Méthodes statiques pour la persistance
+    
     static async getAll() {
         try {
             const response = await fetch(`${CONFIG.apiBaseUrl}/livres`);
