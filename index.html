@@ -4,25 +4,107 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DevBook</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
     <header>
-        <h1>DevBook</h1>
+        <div class="container">
+            <h1><i class="fas fa-book-open"></i> DevBook</h1>
+            <p>Votre bibliothèque technique personnelle</p>
+        </div>
     </header>
     
-    <main>
-        <div id="book-list-container">
-            <h2>Liste des Livres</h2>
-            <ul id="book-list">
-                <!-- Les livres seront ajoutés ici par JavaScript -->
-            </ul>
-        </div>
+    <main class="container">
+        <section id="controles">
+            <div class="recherche">
+                <input type="text" id="recherche" placeholder="Rechercher un livre...">
+                <button id="btn-recherche"><i class="fas fa-search"></i></button>
+            </div>
+            
+            <div class="filtres">
+                <select id="filtre-categorie">
+                    <option value="">Toutes les catégories</option>
+                </select>
+                <select id="filtre-statut">
+                    <option value="">Tous les statuts</option>
+                    <option value="lu">Lu</option>
+                    <option value="en-cours">En cours</option>
+                    <option value="a-lire">À lire</option>
+                </select>
+                <select id="tri">
+                    <option value="titre">Trier par titre</option>
+                    <option value="auteur">Trier par auteur</option>
+                    <option value="date">Trier par date</option>
+                </select>
+            </div>
+            
+            <button id="btn-ajouter" class="btn-primaire">
+                <i class="fas fa-plus"></i> Ajouter un livre
+            </button>
+        </section>
+        
+        <section id="liste-livres">
+            <div class="livres-container">
+                <!-- La liste des livres sera générée dynamiquement ici -->
+            </div>
+            
+            <div class="pagination">
+                <!-- La pagination sera générée dynamiquement ici -->
+            </div>
+        </section>
+        
+        <section id="formulaire-livre" class="modal" style="display: none;">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>Ajouter un livre</h2>
+                <form id="form-livre">
+                    <div class="form-group">
+                        <label for="titre">Titre</label>
+                        <input type="text" id="titre" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="auteur">Auteur</label>
+                        <input type="text" id="auteur" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="date-publication">Date de publication</label>
+                        <input type="date" id="date-publication">
+                    </div>
+                    <div class="form-group">
+                        <label for="categorie">Catégorie</label>
+                        <select id="categorie" required>
+                            <!-- Options générées dynamiquement -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="statut">Statut</label>
+                        <select id="statut" required>
+                            <option value="lu">Lu</option>
+                            <option value="en-cours">En cours</option>
+                            <option value="a-lire">À lire</option>
+                        </select>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn-primaire">Enregistrer</button>
+                        <button type="button" class="btn-secondaire">Annuler</button>
+                    </div>
+                </form>
+            </div>
+        </section>
     </main>
 
     <footer>
-        
+        <div class="container">
+            <p>&copy; 2025 DevBook - Application de gestion de bibliothèque</p>
+        </div>
     </footer>
-    <script src="js/script.js"></script>
+    
+    <!-- Chargement des modèles -->
+    <script type="module" src="js/models/Livre.js"></script>
+    <script type="module" src="js/models/Utilisateur.js"></script>
+    <script type="module" src="js/models/Categorie.js"></script>
+    <script type="module" src="js/models/Emprunt.js"></script>
+    <script type="module" src="js/script.js"></script>
 </body>
 </html>
