@@ -29,24 +29,136 @@ export default class Livre {
         return this.nombreEmprunts;
     }
     
+    // Méthodes statiques pour la persistance
     static async getAll() {
-        // Code pour récupérer tous les livres depuis l'API
+        try {
+            const response = await fetch(`${CONFIG.apiBaseUrl}/livres`);
+            if (!response.ok) {
+                throw new Error(`Erreur HTTP: ${response.status}`);
+            }
+            const livresData = await response.json();
+            
+            return livresData.map(livre => new Livre(
+                livre.id,
+                livre.titre,
+                livre.auteur,
+                livre.date_publication,
+                livre.categorie_id,
+                livre.statut
+            ));
+        } catch (error) {
+            console.error('Erreur lors de la récupération des livres:', error);
+            return [];
+        }
     }
     
     static async getById(id) {
-        // Code pour récupérer un livre par son ID depuis l'API
+        try {
+            const response = await fetch(`${CONFIG.apiBaseUrl}/livres/${id}`);
+            if (!response.ok) {
+                throw new Error(`Erreur HTTP: ${response.status}`);
+            }
+            const livre = await response.json();
+            
+            return new Livre(
+                livre.id,
+                livre.titre,
+                livre.auteur,
+                livre.date_publication,
+                livre.categorie_id,
+                livre.statut
+            );
+        } catch (error) {
+            console.error(`Erreur lors de la récupération du livre ${id}:`, error);
+            return null;
+        }
     }
     
     static async create(livre) {
-        // Code pour créer un livre via l'API
+        try {
+            const response = await fetch(`${CONFIG.apiBaseUrl}/livres`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    titre: livre.titre,
+                    auteur: livre.auteur,
+                    date_publication: livre.datePublication,
+                    categorie_id: livre.idCategorie,
+                    statut: livre.statut
+                })
+            });
+            
+            if (!response.ok) {
+                throw new Error(`Erreur HTTP: ${response.status}`);
+            }
+            
+            const nouveauLivre = await response.json();
+            return new Livre(
+                nouveauLivre.id,
+                nouveauLivre.titre,
+                nouveauLivre.auteur,
+                nouveauLivre.date_publication,
+                nouveauLivre.categorie_id,
+                nouveauLivre.statut
+            );
+        } catch (error) {
+            console.error('Erreur lors de la création du livre:', error);
+            return null;
+        }
     }
     
     static async update(id, livre) {
-        // Code pour mettre à jour un livre via l'API
+        try {
+            const response = await fetch(`${CONFIG.apiBaseUrl}/livres/${id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    titre: livre.titre,
+                    auteur: livre.auteur,
+                    date_publication: livre.datePublication,
+                    categorie_id: livre.idCategorie,
+                    statut: livre.statut
+                })
+            });
+            
+            if (!response.ok) {
+                throw new Error(`Erreur HTTP: ${response.status}`);
+            }
+            
+            const livreModifie = await response.json();
+            return new Livre(
+                livreModifie.id,
+                livreModifie.titre,
+                livreModifie.auteur,
+                livreModifie.date_publication,
+                livreModifie.categorie_id,
+                livreModifie.statut
+            );
+        } catch (error) {
+            console.error(`Erreur lors de la mise à jour du livre ${id}:`, error);
+            return null;
+        }
     }
     
     static async delete(id) {
-        // Code pour supprimer un livre via l'API
+        try {
+            const response = await fetch(`${CONFIG.apiBaseUrl}/livres/${id}`, {
+                method: 'DELETE'
+            });
+            
+            if (!response.ok) {
+                throw new Error(`Erreur HTTP: ${response.status}`);
+            }
+            
+            return true;
+        } catch (error) {
+            console.error(`Erreur lors de la suppression du livre ${id}:`, error);
+            return false;
+        }
     }
     
     toJSON() {
